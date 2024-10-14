@@ -1,9 +1,37 @@
-#Przykład otrzymania wartości wprowadzonej przy użyciu funkcji input().
-wyraz=input()
+# Pobranie liczby zdań
+liczba_zdan = int(input("Podaj liczbę zdań: "))
 
-#W celu poprawnego działania kodu w ramach GitHub Classroom warto dodatkowo użyć funkcję strip()
-#To pozwoli na usunięcie spacji oraz innych "spacjopodobnych" znaków (tabulacja \t', przejście do nowej linii '\n' lub '\r' etc.) z "głowy" i "ogona" (lewej i prawej części wyrazu).
-wyraz=wyraz.strip()
+# Pobranie zdań
+zdania = []
+for _ in range(liczba_zdan):
+    zdanie = input("Podaj zdanie: ")
+    zdania.append(zdanie)
 
-#Wydruk na ekranie (w konsoli)
-print ('Ten wyraz został wprowadzony:', wyraz)
+# Pobranie liczby słów do sprawdzenia
+liczba_slow = int(input("Podaj liczbę słów: "))
+
+# Pobranie słów do sprawdzenia
+slowa_do_policzenia = []
+for _ in range(liczba_slow):
+    slowo = input("Podaj słowo do policzenia: ")
+    slowa_do_policzenia.append(slowo)
+
+# Funkcja do liczenia i sortowania zdań według wystąpień słowa
+def sortuj_zdania(slowo, zdania):
+    licznik_slow = []
+    for i, zdanie in enumerate(zdania):
+        count = zdanie.lower().split().count(slowo.lower())
+        if count > 0:
+            licznik_slow.append((i, count))
+
+    def sortowanie(pary):
+        return (-pary[1], pary[0])  # Sortowanie według liczby wystąpień malejąco, a potem według indeksu rosnąco
+
+    licznik_slow.sort(key=sortowanie)
+
+    # Zwracanie indeksów zdań, tylko jeżeli słowo wystąpiło w zdaniu
+    return [indeks for indeks, _ in licznik_slow]
+
+for slowo in slowa_do_policzenia:
+    wynik = sortuj_zdania(slowo, zdania)
+    print(wynik)

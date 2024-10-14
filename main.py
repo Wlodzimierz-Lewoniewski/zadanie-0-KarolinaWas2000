@@ -1,3 +1,5 @@
+import re
+
 # Pobranie liczby zdań
 liczba_zdan = int(input("Podaj liczbę zdań: "))
 
@@ -20,9 +22,11 @@ for _ in range(liczba_slow):
 def sortuj_zdania(slowo, zdania):
     licznik_slow = []
     for i, zdanie in enumerate(zdania):
-        count = zdanie.lower().split().count(slowo.lower())
-        if count > 0:
-            licznik_slow.append((i, count))
+        # Dzielimy zdanie na słowa, ignorując interpunkcję
+        slowa_w_zdaniu = re.findall(r'\b\w+\b', zdanie.lower())
+        licznik = slowa_w_zdaniu.count(slowo.lower())
+        if licznik > 0:
+            licznik_slow.append((i, licznik))
 
     def sortowanie(pary):
         return (-pary[1], pary[0])  # Sortowanie według liczby wystąpień malejąco, a potem według indeksu rosnąco
